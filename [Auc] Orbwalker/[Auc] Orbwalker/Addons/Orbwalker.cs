@@ -111,33 +111,31 @@ namespace _Auc__Orbwalker.Addons
 
 		private static void OnDrawingDraw(EventArgs args)
 		{
-			if (_menuOrbwalk["_DrawMyBoundingRange"].Cast<CheckBox>().CurrentValue &&  ObjectManager.Player.IsValid)
+			if (_menuOrbwalk["_DrawMyBoundingRange"].Cast<CheckBox>().CurrentValue &&  ObjectManager.Player.Health > 0 )
 				Circle.Draw(Color.White, ObjectManager.Player.BoundingRadius, ObjectManager.Player.Position);
 
 			if (_menuOrbwalk["_DrawEnemyBoundingRange"].Cast<CheckBox>().CurrentValue)
-				foreach (var enemy in ObjectManager.Get<AIHeroClient>().Where(o =>  o.IsValid && o.IsEnemy))
+				foreach (var enemy in ObjectManager.Get<AIHeroClient>().Where(o => o.IsValidTarget(1500) && o.IsEnemy ))
 					Circle.Draw(Color.White, enemy.BoundingRadius, enemy.Position);
 
-			if (_menuOrbwalk["_DrawMyAutoattackrange"].Cast<CheckBox>().CurrentValue && ObjectManager.Player.IsValid)
+			if (_menuOrbwalk["_DrawMyAutoattackrange"].Cast<CheckBox>().CurrentValue && ObjectManager.Player.Health > 0)
 				Circle.Draw(Color.White, GetTrueAARangeTo(), ObjectManager.Player.Position);
 
 			if (_menuOrbwalk["_DrawEnemyAutoattackrange"].Cast<CheckBox>().CurrentValue)
-				foreach (var enemy in ObjectManager.Get<AIHeroClient>().Where(o => o.IsValid && o.IsEnemy ))
+				foreach (var enemy in ObjectManager.Get<AIHeroClient>().Where(o => o.IsValidTarget(1500) && o.IsEnemy ))
 					Circle.Draw(Color.Gray, GetTrueAARangeFrom(enemy), enemy.Position);
 
 			if (_menuOrbwalk["_DrawLasthitMinions"].Cast<CheckBox>().CurrentValue)
 			{
+				var minions = MinionManager.GetCreeps(1500, MinionManager.Type.Attackable);
+				foreach (var minion in from minion in minions
+									   let t = (int)(ObjectManager.Player.AttackCastDelay * 1000) - 100 + Game.Ping / 2 +
+											   1000 * (int)Math.Max(0, ObjectManager.Player.Distance(minion) - ObjectManager.Player.BoundingRadius) /
+											   GetMyProjectileSpeed()
+									   where ObjectManager.Player.GetAutoAttackDamage(minion, true) > Prediction.Health.GetPrediction(minion, t) - 5
+									   select minion)
 				{
-					var minions = MinionManager.GetCreeps(ObjectManager.Player.GetAutoAttackRange(), MinionManager.Type.Attackable);
-					foreach (var minion in from minion in minions
-										   let t = (int)(ObjectManager.Player.AttackCastDelay * 1000) - 100 + Game.Ping / 2 +
-												   1000 * (int)Math.Max(0, ObjectManager.Player.Distance(minion) - ObjectManager.Player.BoundingRadius) /
-												   GetMyProjectileSpeed()
-										   where ObjectManager.Player.GetAutoAttackDamage(minion, true) * 1 > Prediction.Health.GetPrediction(minion, t) - 5
-										   select minion)
-					{
-						Circle.Draw(Color.GreenYellow, 100, minion.Position);
-					}
+					Circle.Draw(Color.GreenYellow, minion.BoundingRadius, minion.Position);
 				}
 			}
 
@@ -165,7 +163,7 @@ namespace _Auc__Orbwalker.Addons
 					if (ObjectManager.Player.ChampionName != "Kalista")
 					{
 						LastAATick = (int)(Game.Time * 1000) + Game.Ping + 100 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
-						var d = GetTrueAARangeTo(target) - 65;
+						var d = GetTrueAARangeTo(target);
 						if (ObjectManager.Player.Distance(target, true) > d * d && !ObjectManager.Player.IsMelee)
 						{
 							LastAATick = (int)(Game.Time * 1000) + Game.Ping + 400 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
@@ -325,14 +323,14 @@ namespace _Auc__Orbwalker.Addons
 
 		public static float GetTrueAARangeTo(Obj_AI_Base target = null)
 		{
-				var ret = ObjectManager.Player.GetAutoAttackRange() + ObjectManager.Player.BoundingRadius;
+				var ret = ObjectManager.Player.GetAutoAttackRange();
 				if (target != null)
 					ret += target.BoundingRadius;
 				return ret;	
 		}
 		public static float GetTrueAARangeFrom(Obj_AI_Base target)
 		{
-			var ret = target.GetAutoAttackRange() + target.BoundingRadius;
+			var ret = target.GetAutoAttackRange();
 			ret += ObjectManager.Player.BoundingRadius;
 			return ret;
 		}
