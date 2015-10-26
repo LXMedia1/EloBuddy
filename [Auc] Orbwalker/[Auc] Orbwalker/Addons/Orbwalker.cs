@@ -40,7 +40,7 @@ namespace _Auc__Orbwalker.Addons
 		public static bool DisableNextAttack;
 		public static Vector3 LastMoveCommandPosition;
 		public static AutoResetDelay MoveTimer = new AutoResetDelay(100, true);
-		internal static void Initiate()
+		 static  Orbwalker()
 		{
 			Disable_CommonOrbwalker();
 			CreateMenu();
