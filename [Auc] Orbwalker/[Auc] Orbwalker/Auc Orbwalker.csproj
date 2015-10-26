@@ -61,23 +61,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EloBuddy">
-      <HintPath>..\..\..\..\EloBuddy\System\EloBuddy.dll</HintPath>
+      <HintPath>..\..\..\..\..\EloBuddy\System\EloBuddy.dll</HintPath>
     </Reference>
     <Reference Include="EloBuddy.Sandbox">
-      <HintPath>..\..\..\..\EloBuddy\System\EloBuddy.Sandbox.dll</HintPath>
+      <HintPath>..\..\..\..\..\EloBuddy\System\EloBuddy.Sandbox.dll</HintPath>
     </Reference>
     <Reference Include="EloBuddy.SDK">
-      <HintPath>..\..\..\..\EloBuddy\System\EloBuddy.SDK.dll</HintPath>
+      <HintPath>..\..\..\..\..\EloBuddy\System\EloBuddy.SDK.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\EloBuddy\System\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>..\..\..\..\EloBuddy\System\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D9">
-      <HintPath>..\..\..\..\EloBuddy\System\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>..\..\..\..\..\EloBuddy\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -118,6 +115,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

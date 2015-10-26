@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[Auc] Orbwalker", "[Auc] Orbwalker\[Auc] Orbwalker.csproj", "{AFD568EA-DC9F-4FE6-8D3E-6455A217E425}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auc Orbwalker", "[Auc] Orbwalker\Auc Orbwalker.csproj", "{AFD568EA-DC9F-4FE6-8D3E-6455A217E425}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
